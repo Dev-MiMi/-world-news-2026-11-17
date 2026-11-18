@@ -5,6 +5,11 @@ or copied artwork. These sources informed its factual labels. Illustrations are
 schematic, rather than depictions of a particular photograph. A report released
 on this date can discuss earlier events; that distinction is explicit below.
 
+The map uses original simplified coastlines with selected report numbers; it is
+a location guide, not a map of disputed borders or damage. The third revision
+keeps the sixteen existing reports and adds four verified reports covering
+Oceania, medical science, climate assistance and Indonesian politics.
+
 ## Ukraine and Russia: bridges attacked
 
 Ukraine attacked the Kerch crossing for a second consecutive day. Reuters' later
@@ -146,3 +151,44 @@ suspected couriers were arrested in Lagos and Kano on 30–31 October. The brief
 explicitly labels this as an agency report about an October operation.
 
 - [Reuters, 17 November](https://www.reuters.com/world/africa/nigeria-arrests-eight-cocaine-gang-routing-drugs-europe-via-sahara-2026-11-17/)
+
+## Australia: monetary-policy minutes released
+
+Minutes published on Tuesday 17 November disclosed the 6–3 vote at the RBA's
+2–3 November meeting to raise the cash rate to 4.85%. The image says the minutes
+are new and dates the underlying vote to 3 November; the rate was not raised
+again on 17 November. Reuters' US publication timestamp falls on 16 November
+EST, while the dispatch and release were on 17 November in Sydney.
+
+- [Reserve Bank of Australia, meeting minutes](https://www.rba.gov.au/monetary-policy/rba-board-minutes/2026/2026-11-03.html)
+- [Reuters, syndicated by StreetInsider](https://www.streetinsider.com/Reuters/RBA%2Bboard%2Bjudges%2Bfifth%2Brate%2Bhike%2Bneeded%2Bto%2Bprovide%2Bpolicy%2Bassurance/27357827.html)
+
+## Science: leukemia vaccine trial results
+
+Sellas announced Phase 3 REGAL trial results on 17 November. The company
+reported that its experimental galinpepimut-S vaccine met the overall-survival
+endpoint in a specified group of patients with acute myeloid leukemia. The
+brief attributes the result to Sellas and identifies it as a trial; it does
+not claim a cure, general effectiveness against every cancer, or approval.
+
+- [Sellas Form 8-K, reporting the 17 November announcement](https://www.streetinsider.com/SEC%2BFilings/Form%2B8-K%2BSELLAS%2BLife%2BSciences%2BFor%3A%2BNov%2B17/27359563.html)
+- [Fierce Biotech, 17 November](https://www.fiercebiotech.com/biotech/sellas-marks-nine-month-survival-benefit-late-stage-leukemia-vaccine-study)
+- [Reuters, 17 November](https://www.reuters.com/business/healthcare-pharmaceuticals/sellas-cancer-vaccine-extends-survival-blood-cancer-trial-2026-11-17/)
+
+## Peru and China: El Niño assistance pledge
+
+Peru's President Keiko Fujimori met Xi Jinping in Shenzhen on Tuesday. She
+said China pledged $22.5 million in assistance for El Niño effects: $15 million
+in aid and $7.5 million in machinery. The image attributes the pledge to her;
+it does not say the funds have arrived or a new disaster began on this date.
+
+- [Reuters, syndicated by StreetInsider, 17 November](https://new.streetinsider.com/Reuters/Peru%2Bappeals%2Bfor%2BChinese%2B%27goodwill%27%2Bto%2Bhelp%2Bit%2Bface%2BEl%2BNi%C3%B1o/27361924.html)
+
+## Indonesia: official dismissed after ethics hearing
+
+On Tuesday, Indonesian police said they dismissed Eko Hadi Santoso after an
+ethics hearing over alleged unauthorised phone monitoring involving the
+president and others. The official appealed. The image calls the phone spying
+alleged and does not imply a criminal conviction or new arrests that day.
+
+- [Reuters, syndicated by CNA, 17 November](https://www.channelnewsasia.com/asia/indonesia-police-dismiss-official-suspected-wiretapping-president-6559591)

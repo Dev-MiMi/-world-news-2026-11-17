@@ -5,6 +5,7 @@ All drawing coordinates use the final 1024-pixel canvas, rendered at 3x for type
 """
 from pathlib import Path
 from math import sin, cos, pi
+import argparse
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent
@@ -77,25 +78,22 @@ def centered(cx, y, value, size=20, style='sans', color=INK):
     text(cx - width(value, size, style) / 2, y, value, size, style, color)
 
 
-def paragraph(x, y, value, max_width, size=19, leading=23, color=INK):
+def paragraph(x, y, value, max_width, size=19, leading=23, color=INK,
+              style='sans'):
     words = value.split()
     current = ''
     for word in words:
         candidate = (current + ' ' + word).strip()
-        if width(candidate, size) > max_width and current:
-            text(x, y, current, size, color=color)
+        if width(candidate, size, style) > max_width and current:
+            text(x, y, current, size, style, color)
             y += leading
             current = word
         else:
             current = candidate
     if current:
-        text(x, y, current, size, color=color)
+        text(x, y, current, size, style, color)
         y += leading
     return y
-
-
-def category(x, y, value, color=TEAL):
-    text(x, y, value, 13, 'bold', color)
 
 
 def sun(cx, cy, r, color=GOLD):
@@ -119,66 +117,6 @@ def plane(cx, cy, scale=1, color=INK):
     poly([(cx+x*scale, cy+y*scale) for x,y in pts], color)
 
 
-def bridge_scene(x, y, w, h):
-    box((x,y,x+w,y+h), '#DDE6DE')
-    sun(x+w-85,y+37,26)
-    for i in range(6):
-        line([(x+16,y+15+i*7),(x+160-i*14,y+15+i*7)], '#B3C8C2', .7)
-    poly([(x,y+97),(x+45,y+72),(x+105,y+93),(x+170,y+86),
-          (x+215,y+109),(x+w,y+108),(x+w,y+h),(x,y+h)], SEA)
-    # The parallel rail crossing remains drawn in the background.
-    line([(x+14,y+83),(x+w-14,y+78)], '#5C7476', 4)
-    for xx in range(28, int(w)-10, 44):
-        line([(x+xx,y+82),(x+xx,y+105)], '#5C7476', 2)
-    # Road arch with its central section fallen; a schematic, no photograph.
-    for a,b in [(12,240),(383,w-12)]:
-        poly([(x+a,y+110),(x+b,y+105),(x+b,y+115),(x+a,y+121)], INK)
-        line([(x+a,y+108),(x+b,y+103)], WHITE, 1.4)
-        for xx in range(a+25,int(b),50):
-            poly([(x+xx,y+119),(x+xx+8,y+117),
-                  (x+xx+7,y+149),(x+xx-1,y+149)], '#526969')
-    poly([(x+239,y+110),(x+255,y+118),(x+269,y+130),
-          (x+262,y+142),(x+244,y+132)], '#647778', INK)
-    poly([(x+287,y+142),(x+329,y+151),(x+358,y+138),
-          (x+369,y+148),(x+334,y+160),(x+287,y+151)], '#7C8D8C', INK)
-    line([(x+281,y+145),(x+295,y+117),(x+320,y+129),
-          (x+348,y+148)], INK, 4)
-    for xx in [290,302,315,329,341]:
-        line([(x+xx,y+131),(x+xx+6,y+149)], INK, 1)
-    line([(x+211,y+109),(x+223,y+102),(x+231,y+109)], RED, 3)
-    line([(x+384,y+108),(x+393,y+102),(x+402,y+106)], RED, 3)
-    for yy in [155,168,181]:
-        wave(x+12,y+yy,w-24,TEAL,1.7,45,.7)
-    box((x+14,y+139,x+158,y+162), WHITE)
-    text(x+22,y+144,'KERCH STRAIT',12,'bold',TEAL)
-    box((x+w-152,y+154,x+w-14,y+177), WHITE)
-    text(x+w-144,y+159,'ROAD SPAN HIT',12,'bold',RED)
-
-
-def gulf_scene(x,y,w,h):
-    box((x,y,x+w,y+h), '#E9DDC4')
-    sun(x+w-41,y+32,20)
-    poly([(x,y+h-31),(x+40,y+h-47),(x+95,y+h-31),
-          (x+w,y+h-38),(x+w,y+h),(x,y+h)], '#C2B99D')
-    # The radar stays intact, since Bahrain/US report interception.
-    poly([(x+73,y+h-18),(x+96,y+h-18),(x+85,y+57)], INK)
-    ellipse((x+63,y+42,x+107,y+70), None, INK, 3)
-    line([(x+67,y+48),(x+104,y+64)], INK, 2)
-    line([(x+85,y+45),(x+88,y+28)], INK, 2)
-    for i in range(3):
-        # Radio arcs rise towards the incoming drone.
-        d.arc(tuple(round(v*SCALE) for v in
-                    (x+83+i*11,y+16-i*9,x+132+i*19,y+69+i*8)),
-              220,305,fill=TEAL,width=2*SCALE)
-    plane(x+207,y+26,.47)
-    line([(x+135,y+91),(x+168,y+52)], WHITE,3)
-    line([(x+169,y+43),(x+173,y+34)], RED,2)
-    line([(x+162,y+37),(x+154,y+31)], RED,2)
-    line([(x+178,y+43),(x+186,y+44)], RED,2)
-    box((x+10,y+h-22,x+w-10,y+h-3),WHITE)
-    text(x+17,y+h-19,'BAHRAIN SAYS: INTERCEPTED',10.5,'bold',TEAL)
-
-
 def globe(cx,cy,r):
     ellipse((cx-r,cy-r,cx+r,cy+r),SEA,INK,1.6)
     ellipse((cx-r*.5,cy-r,cx+r*.5,cy+r),None,TEAL,.7)
@@ -191,34 +129,6 @@ def globe(cx,cy,r):
     poly([(cx+a*r,cy+b*r) for a,b in land],TEAL)
     poly([(cx+r*.28,cy-r*.54),(cx+r*.71,cy-r*.37),
           (cx+r*.64,cy-r*.06),(cx+r*.25,cy+r*.06)],TEAL)
-
-
-def cop_scene(x,y,w,h):
-    box((x,y,x+w,y+h),PALE)
-    globe(x+68,y+45,32)
-    box((x+137,y+21,x+213,y+71),WHITE,INK,1)
-    text(x+148,y+30,'COP31',19,'bold',TEAL)
-    for yy in [56,61]:line([(x+148,y+yy),(x+199,y+yy)],RULE,1)
-    # A negotiation table and three anonymous delegates, not named portraits.
-    for xx in [119,160,200,239]:
-        ellipse((x+xx-5,y+9,x+xx+5,y+19),INK)
-    line([(x+114,y+76),(x+245,y+76)],INK,3)
-    line([(x+122,y+78),(x+117,y+89)],INK,2)
-    line([(x+237,y+78),(x+241,y+89)],INK,2)
-
-
-def sudan_scene(x,y,w,h):
-    box((x,y,x+w,y+h),'#EBDDD0')
-    # Families and a shelter: no graphic depiction of violence.
-    poly([(x+12,y+75),(x+43,y+40),(x+76,y+75)],'#C4A48A',INK,1)
-    box((x+38,y+59,x+50,y+75),PAPER)
-    for xx,hh in [(87,20),(105,29),(124,18)]:
-        ellipse((x+xx-4,y+55-hh,x+xx+4,y+63-hh),INK)
-        line([(x+xx,y+64-hh),(x+xx,y+73)],INK,4)
-    plane(x+88,y+20,.33,RED)
-    text(x+151,y+13,'1,630+',36,'title',RED)
-    text(x+154,y+53,'killed by drones',15,'bold')
-    text(x+154,y+72,'JAN–OCT · UN VERIFIED',10,'bold',MUTED)
 
 
 def flag(x,y,w,h,nation):
@@ -248,153 +158,6 @@ def flag(x,y,w,h,nation):
     line([(x,y),(x+w,y),(x+w,y+h),(x,y+h),(x,y)],INK,.6)
 
 
-def quad_scene(x,y,w,h):
-    box((x,y,x+w,y+h),'#D6E4E0')
-    for i,country in enumerate(['US','AU','IN','JP']):
-        xx=x+25+i*65
-        flag(xx,y+9,39,24,country)
-        centered(xx+19.5,y+40,country,11,'bold')
-    for yy in [64,77,88]:wave(x+13,y+yy,w-26,TEAL,1.7,38,.8)
-    line([(x+20,y+65),(x+61,y+77),(x+107,y+63),
-          (x+155,y+77),(x+206,y+68),(x+275,y+81)],INK,2.5)
-    for xx,yy in [(61,77),(155,77),(275,81)]:
-        ellipse((x+xx-3,y+yy-3,x+xx+3,y+yy+3),GOLD,INK,.8)
-
-
-def chip_scene(x,y,w,h):
-    box((x,y,x+w,y+h),'#DDE2CB')
-    box((x+16,y+18,x+89,y+78),INK,radius=4)
-    box((x+30,y+30,x+76,y+65),TEAL,WHITE,.7)
-    text(x+38,y+40,'AI',22,'bold',WHITE)
-    for yy in range(25,78,9):
-        line([(x+8,y+yy),(x+15,y+yy)],INK,2)
-        line([(x+90,y+yy),(x+99,y+yy)],INK,2)
-    for xx in range(23,89,10):
-        line([(x+xx,y+9),(x+xx,y+17)],INK,2)
-        line([(x+xx,y+79),(x+xx,y+87)],INK,2)
-    text(x+116,y+11,'$115.8bn',34,'title',TEAL)
-    text(x+119,y+54,'Q3 REVENUE',13,'bold')
-    text(x+119,y+73,'+103% YEAR ON YEAR',11,'bold',MUTED)
-
-
-def trade_scene(x,y,w,h):
-    box((x,y,x+w,y+h),'#E8D8CB')
-    # Maple leaf and a Chinese flag above a cargo ship.
-    box((x+17,y+11,x+73,y+41),WHITE)
-    box((x+17,y+11,x+29,y+41),RED)
-    box((x+61,y+11,x+73,y+41),RED)
-    leaf=[(0,-12),(3,-5),(8,-7),(6,-2),(13,1),(8,5),
-          (9,9),(2,8),(1,14),(-1,14),(-2,8),(-9,9),
-          (-8,5),(-13,1),(-6,-2),(-8,-7),(-3,-5)]
-    poly([(x+45+a*.7,y+25+b*.7) for a,b in leaf],RED)
-    box((x+226,y+11,x+282,y+41),RED)
-    star(x+240,y+21,6,GOLD)
-    line([(x+90,y+25),(x+207,y+25)],TEAL,2)
-    poly([(x+90,y+25),(x+99,y+20),(x+99,y+30)],TEAL)
-    poly([(x+207,y+25),(x+198,y+20),(x+198,y+30)],TEAL)
-    for i,color in enumerate([TEAL,GOLD,RED]):
-        box((x+98+i*25,y+52,x+121+i*25,y+66),color,INK,.6)
-    box((x+184,y+45,x+198,y+68),WHITE,INK,.8)
-    poly([(x+71,y+67),(x+222,y+67),(x+204,y+85),(x+90,y+85)],INK)
-    wave(x+14,y+91,w-28,TEAL,1.5,32,.8)
-
-
-def forest_scene(x,y,w,h):
-    box((x,y,x+w,y+h),'#D8E2C9')
-    for cx,cy,r in [(28,37,25),(61,24,26),(90,43,29),
-                    (126,24,23),(154,45,27),(189,24,25)]:
-        line([(x+cx,y+cy),(x+cx,y+83)],'#6C7753',4)
-        ellipse((x+cx-r,y+cy-r,x+cx+r,y+cy+r),TEAL)
-        for i in [-.4,.2]:
-            line([(x+cx-r*.5,y+cy+r*i),(x+cx+r*.5,y+cy+r*i)],'#56908A',.7)
-    box((x+212,y+69,x+w,y+h),'#C8AD80')
-    for xx in [222,244,270]:
-        box((x+xx,y+65,x+xx+10,y+81),'#8D6D4F')
-        ellipse((x+xx,y+62,x+xx+10,y+68),PAPER,INK,.6)
-    line([(x+205,y+11),(x+205,y+90)],RED,2)
-    box((x+10,y+72,x+154,y+91),WHITE)
-    text(x+17,y+76,'AWÁ · BRAZIL',11,'bold',TEAL)
-
-
-def small_bridge(x,y,w,h):
-    box((x,y,x+w,y+h), '#DDE6DE')
-    sun(x+w-32,y+17,12)
-    box((x,y+43,x+w,y+h),SEA)
-    line([(x+7,y+32),(x+w-7,y+30)],MUTED,2)
-    for xx in range(15,int(w),27):
-        line([(x+xx,y+32),(x+xx,y+48)],MUTED,1)
-    for a,b in [(0,110),(190,w)]:
-        line([(x+a,y+46),(x+b,y+44)],INK,8)
-        for xx in range(a+15,int(b),36):
-            line([(x+xx,y+49),(x+xx,y+67)],INK,3)
-    poly([(x+116,y+46),(x+147,y+59),(x+158,y+72),
-          (x+136,y+68)],MUTED,INK)
-    line([(x+140,y+69),(x+158,y+48),(x+183,y+64)],INK,2)
-    for yy in [69,77]:wave(x+5,y+yy,w-10,TEAL,1.5,31,.7)
-
-
-def health_scene(x,y,w,h):
-    box((x,y,x+w,y+h),'#E8DAD4')
-    # Virus symbol and a vaccine vial, not a clinical reconstruction.
-    cx,cy=x+46,y+45
-    for a in range(12):
-        ang=a*pi/6
-        line([(cx+cos(ang)*21,cy+sin(ang)*21),
-              (cx+cos(ang)*31,cy+sin(ang)*31)],RED,2)
-        sun(cx+cos(ang)*31,cy+sin(ang)*31,2.3,RED)
-    ellipse((cx-22,cy-22,cx+22,cy+22),RED)
-    for a,b in [(-8,-9),(8,-2),(-3,9)]:sun(cx+a,cy+b,3,WHITE)
-    box((x+95,y+16,x+126,y+73),WHITE,INK,1.2,radius=3)
-    box((x+93,y+11,x+128,y+23),INK,radius=2)
-    box((x+95,y+41,x+126,y+67),SEA)
-    text(x+100,y+29,'MMR',8,'bold')
-    text(x+145,y+18,'MEASLES',25,'bold',RED)
-    text(x+146,y+52,'US · MEXICO · BOLIVIA',12,'bold')
-
-
-def mongolia_scene(x,y,w,h):
-    box((x,y,x+w,y+h),'#E5DDD0')
-    # Mongolian flag in the country's conventional three vertical bands.
-    for a,c in enumerate([RED,'#397CA0',RED]):
-        box((x+13+a*20,y+14,x+33+a*20,y+55),c)
-    sun(x+23,y+24,3,GOLD)
-    box((x+19,y+32,x+27,y+46),GOLD)
-    box((x+111,y+24,x+193,y+73),WHITE,INK,1)
-    poly([(x+108,y+24),(x+152,y+9),(x+197,y+24)],INK)
-    for xx in [121,142,163,184]:
-        line([(x+xx,y+28),(x+xx,y+66)],MUTED,3)
-    box((x+204,y+24,x+287,y+61),PAPER,INK,1)
-    text(x+213,y+31,'WILL RESIGN',11,'bold',RED)
-    for yy in [48,53]:line([(x+214,y+yy),(x+276,y+yy)],RULE,1)
-
-
-def japan_scene(x,y,w,h):
-    box((x,y,x+w,y+h),'#DCE4E5')
-    flag(x+15,y+13,47,31,'JP')
-    for yy in [56,69,81]:wave(x+5,y+yy,w-10,TEAL,1.5,40,.7)
-    poly([(x+109,y+77),(x+115,y+55),(x+128,y+43),
-          (x+138,y+18),(x+147,y+16),(x+145,y+43),
-          (x+128,y+63),(x+124,y+77)],TEAL)
-    line([(x+160,y+4),(x+160,y+83)],RED,1.3)
-    plane(x+224,y+31,.6)
-    line([(x+273,y+35),(x+252,y+35)],MUTED,1)
-    text(x+177,y+63,'JAPAN PROTESTS',12,'bold',RED)
-
-
-def football_scene(x,y,w,h):
-    box((x,y,x+w,y+h),'#D9E5D5')
-    box((x+9,y+9,x+85,y+76),None,TEAL,1)
-    ellipse((x+24,y+26,x+67,y+69),WHITE,INK,1)
-    poly([(x+40,y+35),(x+53,y+35),(x+57,y+47),
-          (x+46,y+55),(x+35,y+47)],INK)
-    for a,b in [(26,29),(63,33),(30,61),(63,64)]:
-        line([(x+a,y+b),(x+46,y+45)],INK,.8)
-    text(x+104,y+4,'7–0',61,'title',TEAL)
-    text(x+218,y+15,'BRAZIL',15,'bold')
-    text(x+218,y+39,'SINGAPORE',11,'bold',MUTED)
-    text(x+106,y+68,'VINICIUS: HAT-TRICK',12,'bold',TEAL)
-
-
 def illustration(scene,x,y,w,h,native_w=300,native_h=92):
     """Render one original diagram separately to keep panels inside their bounds."""
     global canvas,d
@@ -412,92 +175,319 @@ def illustration(scene,x,y,w,h,native_w=300,native_h=92):
     canvas.paste(strip,(round(x*SCALE),round(y*SCALE)))
 
 
-def feature(x,y,number,region,headlines,scene,caption,color=TEAL,
-            native_h=92):
-    text(x,y,f'{number:02d} / {region}',12,'bold',color)
-    for i,headline in enumerate(headlines):
-        assert width(headline,29,'title') <= 302, headline
-        text(x,y+19+i*29,headline,29,'title')
-    illustration(scene,x,y+80,302,54,native_h=native_h)
-    bottom=paragraph(x,y+141,caption,302,16.5,18.5)
-    assert bottom <= y+181, (number,bottom-y)
+def lead_scene(x,y,w,h):
+    """Road and rail are separate in this schematic of the Kerch crossing."""
+    box((x,y,x+w,y+h),'#DDE6DE')
+    box((x,y+h*.38,x+w,y+h),SEA)
+    sun(x+w-42,y+22,15)
+    for i in range(4):
+        line([(x+14,y+13+i*5),(x+170-i*24,y+13+i*5)],'#B5CBC6',.7)
+    rail_y=y+h*.35
+    line([(x+9,rail_y),(x+w-10,rail_y)],MUTED,3)
+    for xx in range(30,int(w),56):
+        line([(x+xx,rail_y),(x+xx,rail_y+24)],MUTED,2)
+    left,right=w*.39,w*.66
+    road_y=y+h*.59
+    for a,b in [(0,left),(right,w)]:
+        poly([(x+a,road_y),(x+b,road_y-2),(x+b,road_y+7),
+              (x+a,road_y+10)],INK)
+        line([(x+a,road_y+1),(x+b,road_y-1)],WHITE,1)
+        for xx in range(round(a+20),round(b-8),53):
+            line([(x+xx,road_y+9),(x+xx,road_y+30)],MUTED,4)
+    # Arch pieces and the gap, without an invented battle scene.
+    poly([(x+left+8,road_y+2),(x+left+43,road_y+23),
+          (x+left+30,road_y+33),(x+left+5,road_y+17)],MUTED,INK,.8)
+    poly([(x+right-72,road_y+27),(x+right-21,road_y+33),
+          (x+right-5,road_y+19),(x+right-27,road_y+11)],MUTED,INK,.8)
+    line([(x+left+40,road_y+28),(x+left+57,road_y+1),
+          (x+left+80,road_y+20),(x+right-23,road_y+30)],INK,3)
+    for yy in [h*.84,h*.93]:
+        wave(x+7,y+yy,w-14,TEAL,1.5,37,.7)
+    box((x+12,y+7,x+236,y+27),WHITE)
+    text(x+19,y+10,'KERCH STRAIT · ROAD SPAN',12,'bold',TEAL)
+    box((x+w-186,y+h-29,x+w-12,y+h-8),WHITE)
+    text(x+w-179,y+h-26,'ROAD ARCH COLLAPSED',12,'bold',RED)
 
 
-# A compact masthead leaves room for twelve illustrated stories, each with the
-# same readable two-line headline and a short account of what changed today.
+def gulf_card(x,y,w,h):
+    box((x,y,x+w,y+h),'#E9DDC4')
+    sun(x+w-17,y+15,8)
+    poly([(x+17,y+h-8),(x+50,y+h-8),(x+34,y+31)],INK)
+    ellipse((x+14,y+16,x+56,y+37),None,INK,2)
+    line([(x+20,y+20),(x+50,y+32)],INK,1.6)
+    for i in range(3):
+        d.arc(tuple(round(v*SCALE) for v in
+                    (x+40+i*10,y+5-i*5,x+86+i*10,y+45+i*6)),
+              232,313,fill=TEAL,width=round(1.4*SCALE))
+    plane(x+96,y+20,.38)
+    line([(x+64,y+56),(x+81,y+35)],WHITE,2)
+    text(x+126,y+10,'INTERCEPTED',18,'bold',TEAL)
+    text(x+127,y+36,'Bahrain / US account',11,'sans',MUTED)
+
+
+def measles_card(x,y,w,h):
+    box((x,y,x+w,y+h),'#E8DAD4')
+    cx,cy=x+33,y+30
+    for a in range(10):
+        ang=a*pi/5
+        line([(cx+cos(ang)*15,cy+sin(ang)*15),
+              (cx+cos(ang)*23,cy+sin(ang)*23)],RED,1.7)
+        sun(cx+cos(ang)*23,cy+sin(ang)*23,2,RED)
+    ellipse((cx-16,cy-16,cx+16,cy+16),RED)
+    for a,b in [(-6,-6),(6,-1),(-2,7)]:sun(cx+a,cy+b,2.5,WHITE)
+    text(x+78,y+6,'3 COUNTRIES',22,'bold',RED)
+    text(x+79,y+32,'US · MEXICO · BOLIVIA',14,'bold')
+    text(x+79,y+49,'PAHO announcement',9,'sans',MUTED)
+
+
+def climate_card(x,y,w,h):
+    box((x,y,x+w,y+h),PALE)
+    globe(x+35,y+30,22)
+    box((x+83,y+10,x+191,y+51),WHITE,INK,.8)
+    text(x+97,y+16,'COP31',25,'bold',TEAL)
+    for yy in [43,47]:line([(x+97,y+yy),(x+177,y+yy)],RULE,.8)
+    for xx in [218,248,277]:
+        ellipse((x+xx-4,y+12,x+xx+4,y+20),INK)
+        line([(x+xx,y+22),(x+xx,y+40)],INK,4)
+    line([(x+207,y+42),(x+288,y+42)],INK,3)
+    for xx in [212,284]:line([(x+xx,y+43),(x+xx,y+55)],INK,1.5)
+
+
+def sudan_card(x,y,w,h):
+    box((x,y,x+w,y+h),'#EBDDD0')
+    text(x+10,y+4,'2,230+',33,'title',RED)
+    text(x+11,y+43,'CIVILIANS KILLED',10,'bold')
+    text(x+149,y+9,'1,630+ by drones',16,'bold',RED)
+    text(x+150,y+32,'JAN–OCT 2026',11,'bold')
+    text(x+150,y+49,'UN verified · new report',9,'sans',MUTED)
+
+
+def quad_card(x,y,w,h):
+    box((x,y,x+w,y+h),'#D6E4E0')
+    for i,country in enumerate(['US','AU','IN','JP']):
+        xx=x+17+i*73
+        flag(xx,y+8,47,29,country)
+        centered(xx+23.5,y+41,country,10,'bold')
+    for yy in [53,58]:wave(x+8,y+yy,w-16,TEAL,1.4,37,.7)
+
+
+def earnings_card(x,y,w,h):
+    box((x,y,x+w,y+h),'#DDE2CB')
+    box((x+17,y+9,x+78,y+51),INK,radius=3)
+    box((x+28,y+17,x+66,y+43),TEAL,WHITE,.7)
+    text(x+35,y+21,'AI',18,'bold',WHITE)
+    for yy in range(15,52,9):
+        for a,b in [(9,16),(79,86)]:line([(x+a,y+yy),(x+b,y+yy)],INK,2)
+    for xx in range(24,78,10):
+        for a,b in [(3,8),(52,58)]:line([(x+xx,y+a),(x+xx,y+b)],INK,2)
+    text(x+102,y+3,'$115.8bn',33,'title',TEAL)
+    text(x+104,y+42,'Q3 SALES · +103% Y/Y',14,'bold')
+
+
+def tariffs_card(x,y,w,h):
+    box((x,y,x+w,y+h),'#E8D8CB')
+    box((x+13,y+7,x+51,y+31),WHITE)
+    for a,b in [(13,21),(43,51)]:box((x+a,y+7,x+b,y+31),RED)
+    leaf=[(0,-10),(3,-4),(7,-6),(5,-1),(10,1),(6,5),(7,8),
+          (2,7),(1,12),(-1,12),(-2,7),(-7,8),(-6,5),(-10,1),
+          (-5,-1),(-7,-6),(-3,-4)]
+    poly([(x+32+a*.65,y+18+b*.65) for a,b in leaf],RED)
+    box((x+w-51,y+7,x+w-13,y+31),RED)
+    star(x+w-40,y+16,5,GOLD)
+    centered(x+w/2,y+8,'SELECTED TARIFF RELIEF',13,'bold',TEAL)
+    line([(x+69,y+28),(x+w-69,y+28)],TEAL,1.5)
+    for direction,xx in [(1,x+69),(-1,x+w-69)]:
+        poly([(xx,y+28),(xx+direction*6,y+24),(xx+direction*6,y+32)],TEAL)
+    for i,color in enumerate([TEAL,GOLD,RED]):
+        box((x+111+i*22,y+33,x+131+i*22,y+44),color,INK,.5)
+    box((x+183,y+31,x+197,y+44),WHITE,INK,.5)
+    poly([(x+81,y+44),(x+218,y+44),(x+203,y+55),(x+96,y+55)],INK)
+    wave(x+8,y+58,w-16,TEAL,1.2,37,.6)
+
+
+def amazon_card(x,y,w,h):
+    box((x,y,x+w,y+h),'#D8E2C9')
+    for cx,cy,r in [(20,17,17),(52,13,21),(84,19,21),
+                    (116,14,20),(148,20,22),(184,14,20)]:
+        line([(x+cx,y+cy),(x+cx,y+h-6)],'#6C7753',3)
+        ellipse((x+cx-r,y+cy-r,x+cx+r,y+cy+r),TEAL)
+        line([(x+cx-r*.5,y+cy+2),(x+cx+r*.5,y+cy+2)],'#56908A',.7)
+    box((x+213,y+45,x+w,y+h),'#C8AD80')
+    line([(x+208,y+5),(x+208,y+h-4)],RED,1.7)
+    for xx in [227,250,275]:
+        box((x+xx,y+42,x+xx+9,y+54),'#8D6D4F')
+        ellipse((x+xx,y+40,x+xx+9,y+45),PAPER,INK,.5)
+    text(x+224,y+9,'AWÁ',20,'bold',TEAL)
+    text(x+224,y+31,'BRAZIL',10,'bold',MUTED)
+
+
+def score_card(x,y,w,h):
+    box((x,y,x+w,y+h),'#D9E5D5')
+    ellipse((x+16,y+10,x+57,y+51),WHITE,INK,1)
+    poly([(x+29,y+19),(x+43,y+19),(x+46,y+32),
+          (x+36,y+40),(x+25,y+31)],INK)
+    for a,b in [(20,14),(53,17),(21,45),(54,46)]:
+        line([(x+a,y+b),(x+36,y+30)],INK,.6)
+    text(x+77,y+2,'7–0',47,'title',TEAL)
+    text(x+210,y+9,'BRAZIL',15,'bold')
+    text(x+210,y+32,'SINGAPORE',12,'bold',MUTED)
+    text(x+78,y+50,'VINICIUS HAT-TRICK · FRIENDLY',9,'bold',TEAL)
+
+
+def feature(x,y,number,region,headline,scene,caption,color=TEAL):
+    text(x,y,f'{number:02d} / {region}',11,'bold',color)
+    assert width(headline,28.5,'title')<=302, headline
+    text(x,y+18,headline,28.5,'title')
+    illustration(scene,x,y+53,302,60,native_w=302,native_h=60)
+    bottom=paragraph(x,y+120,caption,302,16,18)
+    assert bottom<=y+156, (number,bottom-y)
+
+
+def location_map(x,y,w,h):
+    """Original, simplified coastlines; pins link to numbered news below."""
+    box((x,y,x+w,y+h),'#DFE8E1')
+    def point(lon,lat):
+        return x+(lon+180)/360*w,y+(78-lat)/139*h
+    for lon in [-120,-60,0,60,120]:
+        line([point(lon,78),point(lon,-61)],'#CCDAD3',.6)
+    for lat in [-30,0,30,60]:
+        line([point(-180,lat),point(180,lat)],'#CCDAD3',.6)
+    continents=[
+        [(-168,66),(-151,71),(-128,70),(-113,74),(-98,75),(-78,72),
+         (-60,57),(-66,48),(-82,26),(-88,18),(-84,10),(-98,18),
+         (-112,30),(-124,40),(-135,56),(-153,59)],
+        [(-72,60),(-49,61),(-23,75),(-40,82),(-64,80)],
+        [(-81,12),(-68,11),(-58,6),(-50,-1),(-36,-7),(-41,-23),
+         (-54,-34),(-65,-55),(-73,-50),(-75,-32),(-81,-6)],
+        [(-10,36),(-10,44),(-3,49),(4,53),(8,58),(16,70),(30,71),
+         (42,68),(58,72),(90,76),(123,72),(159,64),(176,60),
+         (165,52),(147,44),(133,36),(121,22),(111,19),(107,9),
+         (99,2),(95,17),(80,8),(71,22),(58,25),(51,12),(42,14),
+         (35,30),(29,36),(22,37),(17,42),(10,44),(3,41)],
+        [(-17,14),(-16,30),(-6,36),(9,37),(24,32),(34,31),(43,12),
+         (51,11),(45,-3),(38,-17),(28,-34),(17,-35),(11,-20),
+         (8,3),(-1,5),(-10,7)],
+        [(113,-22),(124,-14),(135,-12),(144,-18),(153,-27),
+         (146,-39),(131,-32),(114,-34)],
+        [(130,-3),(146,-5),(153,-10),(140,-9)],
+        [(96,5),(107,-7),(116,-8),(111,-3)],
+        [(119,18),(125,8),(124,4),(120,8)],
+        [(130,31),(136,35),(141,41),(145,44),(142,36),(136,31)],
+        [(47,-13),(50,-17),(47,-25),(44,-21)],
+        [(166,-35),(175,-40),(172,-45),(167,-43)],
+        [(-8,50),(-3,59),(1,58),(2,51)],
+    ]
+    for coast in continents:poly([point(*p) for p in coast],TEAL)
+    # The map links only selected locations; it neither draws borders nor
+    # purports to inventory every location mentioned in the day's stories.
+    for number,lon,lat,dx,dy in [
+        (1,36.5,45.3,-12,-11),(3,-102,24,-8,-4),
+        (5,32,15,-14,9),(6,121,15,8,-4),(20,151,-34,3,12),
+    ]:
+        px,py=point(lon,lat)
+        sun(px,py,2.4,RED)
+        cx,cy=px+dx,py+dy
+        line([(px,py),(cx,cy)],RED,.7)
+        ellipse((cx-8,cy-8,cx+8,cy+8),WHITE,RED,.8)
+        centered(cx,cy-5.3,str(number),9,'bold',RED)
+
+
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--out',type=Path,default=ROOT/'entry.png')
+args=parser.parse_args()
+
+# A recognisable front page: large dated masthead, one lead, an indexed world
+# map, nine illustrated reports and nine concise briefs across regions.
 box((18,18,1006,1006),None,INK,1)
 text(32,30,'THE WORLD, IN ONE DAY',12,'bold',TEAL)
-text(32,49,'WORLD DAILY',57,'title')
-box((652,30,992,108),INK)
+text(32,46,'WORLD DAILY',53,'title')
+box((652,30,992,101),INK)
 centered(822,39,'TUESDAY',13,'bold',SEA)
-centered(822,61,'17 NOVEMBER 2026',29,'bold',WHITE)
-text(32,111,'16 stories · Conflict, diplomacy, health, climate, economy & sport',16,'italic',MUTED)
-line([(32,139),(992,139)],INK,2.5)
+centered(822,60,'17 NOVEMBER 2026',29,'bold',WHITE)
+text(32,105,'20 reports · War & diplomacy · Health & science · Climate · Trade · Sport',15,'italic',MUTED)
+line([(32,129),(992,129)],INK,2.5)
+
+text(32,140,'01 / EUROPE · UKRAINE & RUSSIA',12,'bold',RED)
+text(32,159,'Ukraine hits Kerch bridge',41,'title')
+assert width('Ukraine hits Kerch bridge',41,'title')<=631
+illustration(lead_scene,32,210,631,86,native_w=631,native_h=86)
+paragraph(32,304,'Road arch collapses; Kyiv bridges struck, mayor says.',631,17.5,20)
+text(32,326,'REUTERS · 17 NOV · SCHEMATIC',9,'sans',MUTED)
+
+text(690,140,'WORLD / SELECTED STORY LOCATIONS',11,'bold',TEAL)
+location_map(690,163,302,101)
+text(690,275,'20 / OCEANIA · AUSTRALIA',11,'bold',TEAL)
+text(690,292,'New RBA minutes: 6–3 split',20,'bold')
+paragraph(690,316,'Nov 3 vote lifted rate to 4.85%.',302,14,16,MUTED)
+line([(676,140),(676,333)],RULE,.7)
+line([(32,342),(992,342)],INK,1.4)
 
 xs=[32,361,690]
-ys=[154,342,530,718]
-for xx in [347,676]:line([(xx,154),(xx,917)],RULE,.7)
-for yy in [331,519,707]:line([(32,yy),(992,yy)],RULE,.8)
+for xx in [347,676]:line([(xx,355),(xx,838)],RULE,.7)
+for yy in [515,679,843]:line([(32,yy),(992,yy)],RULE,.8)
 
-feature(xs[0],ys[0],1,'EUROPE · UKRAINE & RUSSIA',
-        ['Kerch bridge hit','for a second day'],small_bridge,
-        'Ukraine hits the road span; Russia attacks Kyiv’s bridges.',RED)
-feature(xs[1],ys[0],2,'MIDDLE EAST · BAHRAIN',
-        ['Iran drones;','US strikes back'],gulf_scene,
-        'Bahrain says drones intercepted; US hits Iranian launch site.',RED,141)
-feature(xs[2],ys[0],3,'HEALTH · THE AMERICAS',
-        ['Measles status','lost in 3 countries'],health_scene,
-        'PAHO: US, Mexico and Bolivia lose elimination status.',RED)
+feature(xs[0],355,2,'MIDDLE EAST · IRAN / BAHRAIN',
+        'Iran drones; US strike',gulf_card,
+        'Bahrain reports interception; US official says launch site hit.',RED)
+feature(xs[1],355,3,'PUBLIC HEALTH · AMERICAS',
+        'Measles elimination lost',measles_card,
+        'US, Mexico and Bolivia lose elimination status, PAHO says.',RED)
+feature(xs[2],355,4,'CLIMATE · ANTALYA, TÜRKIYE',
+        'COP31 draft divides',climate_card,
+        'No final deal: finance and fossil fuels divide ministers.')
 
-feature(xs[0],ys[1],4,'CLIMATE · ANTALYA, TÜRKIYE',
-        ['COP31 ministers','debate draft deal'],cop_scene,
-        'Finance and fossil fuels divide talks; EU pushes back.')
-feature(xs[1],ys[1],5,'AFRICA · SUDAN',
-        ['UN documents','deadly drone toll'],sudan_scene,
-        'New Jan–Oct report: 2,230+ killed, including 1,630+ by drones.',RED)
-feature(xs[2],ys[1],6,'INDO-PACIFIC · MANILA',
-        ['Quad leaders meet','in the Philippines'],quad_scene,
-        'US, Australia, India, Japan agree on maritime, AI and cable projects.')
+feature(xs[0],519,5,'AFRICA · SUDAN',
+        'Sudan’s civilian toll',sudan_card,
+        'UN releases Jan–Oct count; most documented deaths by drones.',RED)
+feature(xs[1],519,6,'INDO-PACIFIC · MANILA',
+        'Quad leaders meet',quad_card,
+        'US, Australia, India, Japan: maritime, AI and cable projects.')
+feature(xs[2],519,7,'BUSINESS · UNITED STATES',
+        'Nvidia sales double',earnings_card,
+        'AI drives Q3 revenue up 103%; earnings released today.')
+feature(xs[0],683,8,'TRADE · CANADA & CHINA',
+        'Xi & Carney ease tariffs',tariffs_card,
+        'Selected export relief; steel and aluminium exemptions extended.')
+feature(xs[1],683,9,'AMAZON · BRAZIL',
+        'Awá footage: forest fears',amazon_card,
+        'Funai reviews footage; advocates warn of threats from logging.')
+feature(xs[2],683,12,'FOOTBALL · SINGAPORE',
+        'Brazil 7–0 Singapore',score_card,
+        'Vinicius nets first-half hat-trick in the friendly win.')
 
-feature(xs[0],ys[2],7,'BUSINESS · UNITED STATES',
-        ['Nvidia quarterly','sales rise 103%'],chip_scene,
-        'Q3 results released: $115.8bn revenue, driven by AI.',native_h=96)
-feature(xs[1],ys[2],8,'TRADE · CANADA & CHINA',
-        ['Xi & Carney expand','tariff relief'],trade_scene,
-        'Relief on selected exports, steel and aluminium extended in Shenzhen.',native_h=96)
-feature(xs[2],ys[2],9,'AMAZON · BRAZIL',
-        ['New Awá footage','raises forest alarm'],forest_scene,
-        'Advocates warn of threats; Funai assesses footage released today.',native_h=96)
-
-feature(xs[0],ys[3],10,'POLITICS · MONGOLIA',
-        ['President says','he will resign'],mongolia_scene,
-        'Khurelsukh denies graft claims; parliament must accept resignation.')
-feature(xs[1],ys[3],11,'SECURITY · JAPAN',
-        ['Japan protests','airspace breach'],japan_scene,
-        'Two aircraft believed Russian; Taiwan also detects Russian planes.')
-feature(xs[2],ys[3],12,'FOOTBALL · SINGAPORE',
-        ['Brazil win 7–0;','Vinicius nets three'],football_scene,
-        'A first-half hat-trick in the friendly victory over Singapore.')
-
-# Four restrained briefs add distinct news without competing with the headline
-# grid. Every line names a concrete change or identifies a newly released report.
-box((32,932,992,991),INK)
+# Readable briefs retain secondary stories; no story count is a quality claim.
+# Their date/period and attribution distinctions survive the shorter wording.
+text(32,851,'ALSO TODAY / ACROSS REGIONS & FIELDS',10,'bold',TEAL)
 briefs=[
-    ('13 / MOZAMBIQUE','Mondlane trial opens',
+    (10,'MONGOLIA','President says he’ll resign',
+     'Khurelsukh denies graft; parliament decides.'),
+    (11,'JAPAN / TAIWAN','Japan protests air breach',
+     'Believed Russian; Taiwan detects planes.'),
+    (13,'MOZAMBIQUE','Mondlane trial opens',
      'Unrest charges; he denies them.'),
-    ('14 / UK JOBS DATA','Pay growth slows to 3.5%',
-     'Jul–Sep data; jobless rate 4.6%.'),
-    ('15 / TECHNOLOGY','OpenAI releases GPT-6.2',
-     'New Astra and Sol models.'),
-    ('16 / NIGERIA','Drug agency reports 8 arrests',
+    (14,'UK / JUL–SEP DATA','Pay growth slows to 3.5%',
+     'New ONS release; jobless rate 4.6%.'),
+    (15,'TECHNOLOGY','OpenAI releases GPT-6.2',
+     'Astra and Sol models launched today.'),
+    (16,'NIGERIA / AGENCY REPORT','Drug agency reports 8 arrests',
      'October operation; Sahara route.'),
+    (17,'SCIENCE / LEUKEMIA TRIAL','Sellas reports survival gain',
+     'Experimental vaccine; Phase 3 endpoint met.'),
+    (18,'PERU / CHINA','El Niño assistance pledged',
+     'Fujimori says China offered $22.5m.'),
+    (19,'INDONESIA','Police official dismissed',
+     'Alleged phone spying on president.'),
 ]
-for i,(label,headline,detail) in enumerate(briefs):
-    xx=41+i*240
-    text(xx,939,label,10,'bold',SEA)
-    text(xx,955,headline,16,'bold',WHITE)
-    text(xx,976,detail,12,'sans',WHITE)
-    if i:line([(xx-9,940),(xx-9,984)],MUTED,.8)
+# Four columns would make these headlines too small. Three columns allow 20px
+# type; each compact brief fits its own two-line block without clipping.
+for i,(number,region,headline,detail) in enumerate(briefs):
+    xx=xs[i%3]
+    yy=869+(i//3)*44
+    text(xx,yy,f'{number:02d} / {region}',9.5,'bold',TEAL)
+    assert width(headline,20,'bold')<=302, (number,headline)
+    text(xx,yy+12,headline,20,'bold')
+    assert width(detail,11.5)<=302, (number,detail)
+    text(xx,yy+32,detail,11.5,'sans',MUTED)
 
-canvas.resize((1024,1024),Image.Resampling.LANCZOS).save(ROOT/'entry.png', optimize=True)
-print('Rendered', ROOT/'entry.png')
+canvas.resize((1024,1024),Image.Resampling.LANCZOS).save(args.out,optimize=True)
+print('Rendered',args.out)

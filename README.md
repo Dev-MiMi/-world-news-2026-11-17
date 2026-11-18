@@ -6,15 +6,16 @@
 
 An original illustrated newspaper for Tuesday, 17 November 2026, entered in
 [make.fun's world news image bounty](https://make.fun/bounty/news-image-20261117).
-Sixteen stories cover Europe, the Middle East, Africa, the Americas and Asia:
-conflict, diplomacy, public health, climate, politics, jobs, technology, trade,
-the Amazon and football.
+Twenty reports cover Europe, the Middle East, Africa, the Americas, Asia and
+Oceania: conflict, diplomacy, public health, science, climate, politics, jobs,
+technology, trade, the Amazon and football.
 
 ![World Daily news illustration](entry.png)
 
-The artwork uses a warm paper palette, twelve aligned illustrated panels,
-four short briefs, exact typography and original geometric illustrations.
-The date and main headlines remain clear in a 300-pixel preview. The captions distinguish
+The artwork uses a warm paper palette, one large lead illustration, a simplified
+map indexed to selected reports, nine illustrated panels and nine short briefs.
+The date, main headlines and key illustrated figures remain clear in a 300-pixel
+preview; the smaller captions and briefs are best read at full size. The captions distinguish
 reported claims from verified events and a newly released report from its
 historical reporting period. [SOURCES.md](SOURCES.md) records the reporting
 sources and those distinctions. No news photographs or copied artwork are used.
@@ -45,6 +46,9 @@ Pillow, Liberation Sans and Nimbus Roman fonts at the paths named in the script:
 ```sh
 python3 render.py
 ```
+
+To render a comparison without replacing the committed image, pass
+`--out /path/to/draft.png`.
 
 Those dependencies are used only to rebuild the PNG. They are not used by
 `main.py` or the competition sandbox.
