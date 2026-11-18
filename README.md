@@ -6,13 +6,15 @@
 
 An original illustrated newspaper for Tuesday, 17 November 2026, entered in
 [make.fun's world news image bounty](https://make.fun/bounty/news-image-20261117).
-Eight stories cover Europe, the Middle East, climate negotiations, Sudan,
-Indo-Pacific diplomacy, technology, trade and the Amazon.
+Sixteen stories cover Europe, the Middle East, Africa, the Americas and Asia:
+conflict, diplomacy, public health, climate, politics, jobs, technology, trade,
+the Amazon and football.
 
 ![World Daily news illustration](entry.png)
 
-The artwork uses a warm paper palette, aligned newspaper columns, exact
-typography and original geometric illustrations. The captions distinguish
+The artwork uses a warm paper palette, twelve aligned illustrated panels,
+four short briefs, exact typography and original geometric illustrations.
+The date and main headlines remain clear in a 300-pixel preview. The captions distinguish
 reported claims from verified events and a newly released report from its
 historical reporting period. [SOURCES.md](SOURCES.md) records the reporting
 sources and those distinctions. No news photographs or copied artwork are used.

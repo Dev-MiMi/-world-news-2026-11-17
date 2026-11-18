@@ -316,58 +316,188 @@ def forest_scene(x,y,w,h):
     text(x+17,y+76,'AWÁ · BRAZIL',11,'bold',TEAL)
 
 
-# One typographic system and aligned newspaper columns.
-box((20,20,1004,1004),None,INK,1)
-category(34,32,'THE WORLD, IN ONE DAY')
-text(34,53,'WORLD DAILY',65,'title')
-text(687,46,'TUESDAY',16,'bold',MUTED)
-text(686,70,'17 NOVEMBER',31,'bold')
-text(900,108,'2026',25,'title',TEAL)
-text(34,123,'Conflict · diplomacy · climate · people · technology',17,'italic',MUTED)
-line([(34,148),(990,148)],INK,3)
+def small_bridge(x,y,w,h):
+    box((x,y,x+w,y+h), '#DDE6DE')
+    sun(x+w-32,y+17,12)
+    box((x,y+43,x+w,y+h),SEA)
+    line([(x+7,y+32),(x+w-7,y+30)],MUTED,2)
+    for xx in range(15,int(w),27):
+        line([(x+xx,y+32),(x+xx,y+48)],MUTED,1)
+    for a,b in [(0,110),(190,w)]:
+        line([(x+a,y+46),(x+b,y+44)],INK,8)
+        for xx in range(a+15,int(b),36):
+            line([(x+xx,y+49),(x+xx,y+67)],INK,3)
+    poly([(x+116,y+46),(x+147,y+59),(x+158,y+72),
+          (x+136,y+68)],MUTED,INK)
+    line([(x+140,y+69),(x+158,y+48),(x+183,y+64)],INK,2)
+    for yy in [69,77]:wave(x+5,y+yy,w-10,TEAL,1.5,31,.7)
 
-category(34,162,'01 / EUROPE · UKRAINE & RUSSIA',RED)
-text(34,184,'Ukraine hits',48,'title')
-text(34,232,'Kerch bridge again',48,'title')
-bridge_scene(34,286,622,193)
-paragraph(34,491,'Ukraine hits Kerch’s road span again; Russia targets Kyiv’s bridges and infrastructure.',622,21,25)
 
-line([(676,162),(676,550)],RULE,.8)
-category(694,162,'02 / MIDDLE EAST',RED)
-text(694,186,'Iran & US',35,'title')
-text(694,224,'exchange fire',35,'title')
-gulf_scene(694,278,296,141)
-paragraph(694,433,'Bahrain and US say Iranian drones aimed at a US radar were intercepted. US says it struck an Iranian launch site.',294,19,23)
+def health_scene(x,y,w,h):
+    box((x,y,x+w,y+h),'#E8DAD4')
+    # Virus symbol and a vaccine vial, not a clinical reconstruction.
+    cx,cy=x+46,y+45
+    for a in range(12):
+        ang=a*pi/6
+        line([(cx+cos(ang)*21,cy+sin(ang)*21),
+              (cx+cos(ang)*31,cy+sin(ang)*31)],RED,2)
+        sun(cx+cos(ang)*31,cy+sin(ang)*31,2.3,RED)
+    ellipse((cx-22,cy-22,cx+22,cy+22),RED)
+    for a,b in [(-8,-9),(8,-2),(-3,9)]:sun(cx+a,cy+b,3,WHITE)
+    box((x+95,y+16,x+126,y+73),WHITE,INK,1.2,radius=3)
+    box((x+93,y+11,x+128,y+23),INK,radius=2)
+    box((x+95,y+41,x+126,y+67),SEA)
+    text(x+100,y+29,'MMR',8,'bold')
+    text(x+145,y+18,'MEASLES',25,'bold',RED)
+    text(x+146,y+52,'US · MEXICO · BOLIVIA',12,'bold')
 
-line([(34,563),(990,563)],INK,1.5)
-colx=[34,362,690]
-for xx in [348,676]:line([(xx,577),(xx,992)],RULE,.8)
-category(34,578,'03 / CLIMATE · TÜRKIYE')
-category(362,578,'04 / AFRICA · SUDAN',RED)
-category(690,578,'05 / INDO-PACIFIC · MANILA')
-cop_scene(34,601,300,92)
-sudan_scene(362,601,300,92)
-quad_scene(690,601,300,92)
-text(34,708,'COP31: draft disputed',27,'title')
-paragraph(34,740,'Ministers negotiate finance and fossil fuels; EU pushes back on the draft deal.',300,18.5,22)
-text(362,708,'Sudan: UN reports toll',27,'title')
-paragraph(362,740,'New report documents 2,230+ civilian deaths in Jan–Oct; most were drone victims.',300,18.5,22)
-text(690,708,'Quad summit in Manila',27,'title')
-paragraph(690,740,'US, Australia, India and Japan announce maritime, AI and cable cooperation.',300,18.5,22)
 
-line([(34,815),(990,815)],INK,1)
-category(34,829,'06 / BUSINESS · UNITED STATES')
-category(362,829,'07 / TRADE · CANADA & CHINA')
-category(690,829,'08 / AMAZON · BRAZIL')
-chip_scene(34,851,300,96)
-trade_scene(362,851,300,96)
-forest_scene(690,851,300,96)
-text(34,958,'Nvidia sales double',25,'title')
-text(362,958,'Tariff relief expands',25,'title')
-text(690,958,'Awá footage raises alarm',24,'title')
-text(34,986,'Quarterly results released',17,'sans',MUTED)
-text(362,986,'Xi & Carney agree in Shenzhen',17,'sans',MUTED)
-text(690,986,'Advocates warn of forest threats',17,'sans',MUTED)
+def mongolia_scene(x,y,w,h):
+    box((x,y,x+w,y+h),'#E5DDD0')
+    # Mongolian flag in the country's conventional three vertical bands.
+    for a,c in enumerate([RED,'#397CA0',RED]):
+        box((x+13+a*20,y+14,x+33+a*20,y+55),c)
+    sun(x+23,y+24,3,GOLD)
+    box((x+19,y+32,x+27,y+46),GOLD)
+    box((x+111,y+24,x+193,y+73),WHITE,INK,1)
+    poly([(x+108,y+24),(x+152,y+9),(x+197,y+24)],INK)
+    for xx in [121,142,163,184]:
+        line([(x+xx,y+28),(x+xx,y+66)],MUTED,3)
+    box((x+204,y+24,x+287,y+61),PAPER,INK,1)
+    text(x+213,y+31,'WILL RESIGN',11,'bold',RED)
+    for yy in [48,53]:line([(x+214,y+yy),(x+276,y+yy)],RULE,1)
+
+
+def japan_scene(x,y,w,h):
+    box((x,y,x+w,y+h),'#DCE4E5')
+    flag(x+15,y+13,47,31,'JP')
+    for yy in [56,69,81]:wave(x+5,y+yy,w-10,TEAL,1.5,40,.7)
+    poly([(x+109,y+77),(x+115,y+55),(x+128,y+43),
+          (x+138,y+18),(x+147,y+16),(x+145,y+43),
+          (x+128,y+63),(x+124,y+77)],TEAL)
+    line([(x+160,y+4),(x+160,y+83)],RED,1.3)
+    plane(x+224,y+31,.6)
+    line([(x+273,y+35),(x+252,y+35)],MUTED,1)
+    text(x+177,y+63,'JAPAN PROTESTS',12,'bold',RED)
+
+
+def football_scene(x,y,w,h):
+    box((x,y,x+w,y+h),'#D9E5D5')
+    box((x+9,y+9,x+85,y+76),None,TEAL,1)
+    ellipse((x+24,y+26,x+67,y+69),WHITE,INK,1)
+    poly([(x+40,y+35),(x+53,y+35),(x+57,y+47),
+          (x+46,y+55),(x+35,y+47)],INK)
+    for a,b in [(26,29),(63,33),(30,61),(63,64)]:
+        line([(x+a,y+b),(x+46,y+45)],INK,.8)
+    text(x+104,y+4,'7–0',61,'title',TEAL)
+    text(x+218,y+15,'BRAZIL',15,'bold')
+    text(x+218,y+39,'SINGAPORE',11,'bold',MUTED)
+    text(x+106,y+68,'VINICIUS: HAT-TRICK',12,'bold',TEAL)
+
+
+def illustration(scene,x,y,w,h,native_w=300,native_h=92):
+    """Render one original diagram separately to keep panels inside their bounds."""
+    global canvas,d
+    page,page_draw=canvas,d
+    canvas=Image.new('RGB',(native_w*SCALE,native_h*SCALE),PAPER)
+    d=ImageDraw.Draw(canvas)
+    scene(0,0,native_w,native_h)
+    # Preserve circles, flags and lettering when fitting the short picture strip.
+    factor=min(w/native_w,h/native_h)
+    tile=canvas.resize((round(native_w*factor*SCALE),
+                        round(native_h*factor*SCALE)),Image.Resampling.LANCZOS)
+    strip=Image.new('RGB',(round(w*SCALE),round(h*SCALE)),canvas.getpixel((0,0)))
+    strip.paste(tile,((strip.width-tile.width)//2,(strip.height-tile.height)//2))
+    canvas,d=page,page_draw
+    canvas.paste(strip,(round(x*SCALE),round(y*SCALE)))
+
+
+def feature(x,y,number,region,headlines,scene,caption,color=TEAL,
+            native_h=92):
+    text(x,y,f'{number:02d} / {region}',12,'bold',color)
+    for i,headline in enumerate(headlines):
+        assert width(headline,29,'title') <= 302, headline
+        text(x,y+19+i*29,headline,29,'title')
+    illustration(scene,x,y+80,302,54,native_h=native_h)
+    bottom=paragraph(x,y+141,caption,302,16.5,18.5)
+    assert bottom <= y+181, (number,bottom-y)
+
+
+# A compact masthead leaves room for twelve illustrated stories, each with the
+# same readable two-line headline and a short account of what changed today.
+box((18,18,1006,1006),None,INK,1)
+text(32,30,'THE WORLD, IN ONE DAY',12,'bold',TEAL)
+text(32,49,'WORLD DAILY',57,'title')
+box((652,30,992,108),INK)
+centered(822,39,'TUESDAY',13,'bold',SEA)
+centered(822,61,'17 NOVEMBER 2026',29,'bold',WHITE)
+text(32,111,'16 stories · Conflict, diplomacy, health, climate, economy & sport',16,'italic',MUTED)
+line([(32,139),(992,139)],INK,2.5)
+
+xs=[32,361,690]
+ys=[154,342,530,718]
+for xx in [347,676]:line([(xx,154),(xx,917)],RULE,.7)
+for yy in [331,519,707]:line([(32,yy),(992,yy)],RULE,.8)
+
+feature(xs[0],ys[0],1,'EUROPE · UKRAINE & RUSSIA',
+        ['Kerch bridge hit','for a second day'],small_bridge,
+        'Ukraine hits the road span; Russia attacks Kyiv’s bridges.',RED)
+feature(xs[1],ys[0],2,'MIDDLE EAST · BAHRAIN',
+        ['Iran drones;','US strikes back'],gulf_scene,
+        'Bahrain says drones intercepted; US hits Iranian launch site.',RED,141)
+feature(xs[2],ys[0],3,'HEALTH · THE AMERICAS',
+        ['Measles status','lost in 3 countries'],health_scene,
+        'PAHO: US, Mexico and Bolivia lose elimination status.',RED)
+
+feature(xs[0],ys[1],4,'CLIMATE · ANTALYA, TÜRKIYE',
+        ['COP31 ministers','debate draft deal'],cop_scene,
+        'Finance and fossil fuels divide talks; EU pushes back.')
+feature(xs[1],ys[1],5,'AFRICA · SUDAN',
+        ['UN documents','deadly drone toll'],sudan_scene,
+        'New Jan–Oct report: 2,230+ killed, including 1,630+ by drones.',RED)
+feature(xs[2],ys[1],6,'INDO-PACIFIC · MANILA',
+        ['Quad leaders meet','in the Philippines'],quad_scene,
+        'US, Australia, India, Japan agree on maritime, AI and cable projects.')
+
+feature(xs[0],ys[2],7,'BUSINESS · UNITED STATES',
+        ['Nvidia quarterly','sales rise 103%'],chip_scene,
+        'Q3 results released: $115.8bn revenue, driven by AI.',native_h=96)
+feature(xs[1],ys[2],8,'TRADE · CANADA & CHINA',
+        ['Xi & Carney expand','tariff relief'],trade_scene,
+        'Relief on selected exports, steel and aluminium extended in Shenzhen.',native_h=96)
+feature(xs[2],ys[2],9,'AMAZON · BRAZIL',
+        ['New Awá footage','raises forest alarm'],forest_scene,
+        'Advocates warn of threats; Funai assesses footage released today.',native_h=96)
+
+feature(xs[0],ys[3],10,'POLITICS · MONGOLIA',
+        ['President says','he will resign'],mongolia_scene,
+        'Khurelsukh denies graft claims; parliament must accept resignation.')
+feature(xs[1],ys[3],11,'SECURITY · JAPAN',
+        ['Japan protests','airspace breach'],japan_scene,
+        'Two aircraft believed Russian; Taiwan also detects Russian planes.')
+feature(xs[2],ys[3],12,'FOOTBALL · SINGAPORE',
+        ['Brazil win 7–0;','Vinicius nets three'],football_scene,
+        'A first-half hat-trick in the friendly victory over Singapore.')
+
+# Four restrained briefs add distinct news without competing with the headline
+# grid. Every line names a concrete change or identifies a newly released report.
+box((32,932,992,991),INK)
+briefs=[
+    ('13 / MOZAMBIQUE','Mondlane trial opens',
+     'Unrest charges; he denies them.'),
+    ('14 / UK JOBS DATA','Pay growth slows to 3.5%',
+     'Jul–Sep data; jobless rate 4.6%.'),
+    ('15 / TECHNOLOGY','OpenAI releases GPT-6.2',
+     'New Astra and Sol models.'),
+    ('16 / NIGERIA','Drug agency reports 8 arrests',
+     'October operation; Sahara route.'),
+]
+for i,(label,headline,detail) in enumerate(briefs):
+    xx=41+i*240
+    text(xx,939,label,10,'bold',SEA)
+    text(xx,955,headline,16,'bold',WHITE)
+    text(xx,976,detail,12,'sans',WHITE)
+    if i:line([(xx-9,940),(xx-9,984)],MUTED,.8)
 
 canvas.resize((1024,1024),Image.Resampling.LANCZOS).save(ROOT/'entry.png', optimize=True)
 print('Rendered', ROOT/'entry.png')

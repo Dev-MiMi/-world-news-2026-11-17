@@ -82,12 +82,67 @@ location. The drawing represents a threatened forest, not the footage itself.
 
 - [Reuters, syndicated by Investing.com](https://www.investing.com/news/world-news/rare-images-of-isolatedindigenous-group-in-brazil-highlight-threats-5034223)
 
-## Short briefs
+## Mongolia: resignation announced
 
 - Mongolia's President Khurelsukh said on Tuesday that he would resign after
   corruption accusations, which he denied. Parliamentary acceptance was still
   required. [Associated Press](https://apnews.com/article/mongolia-president-corruption-allegations-9542b2bf7536db6ae65b371aac07bbf4)
+
+## Japan and Taiwan: aircraft incidents
+
 - Japan protested after two aircraft believed to be Russian breached its
-  airspace. [Reuters, syndicated by ThePrint](https://theprint.in/world/taiwan-japan-flag-incursions-by-russian-aircraft-as-putin-set-to-arrive-in-china/3100646/)
+  airspace near Okinoshima. Taiwan separately detected two Russian aircraft
+  off its east coast. The image distinguishes Taiwan's detection from Japan's
+  reported airspace violation; an air defence identification zone is not the
+  same thing as sovereign airspace.
+  [Reuters, syndicated by ThePrint](https://theprint.in/world/taiwan-japan-flag-incursions-by-russian-aircraft-as-putin-set-to-arrive-in-china/3100646/)
+
+## OpenAI: new models released
+
 - OpenAI released GPT-6.2 Astra and Sol on 17 November.
   [OpenAI system card](https://deploymentsafety.openai.com/gpt-6-2-astra-sol)
+
+## Health: measles elimination status lost
+
+PAHO announced on 17 November that the United States, Mexico and Bolivia had
+lost measles elimination status following sustained transmission. This is a
+change in designation, not a claim that measles first arrived on this date.
+The image names all three countries and attributes the announcement to PAHO.
+
+- [Reuters, syndicated by Investing.com](https://www.investing.com/news/general-news/us-loses-measles-elimination-status-after-nearly-three-decades-5033589)
+- [Associated Press](https://apnews.com/article/e11d845ff206957fb568f52d71383a41)
+
+## Sport: Brazil defeats Singapore
+
+Brazil beat Singapore 7–0 in a friendly on Tuesday. Vinicius Jr completed his
+hat-trick in the first half. The image does not describe it as a tournament
+final or a World Cup match.
+
+- [Reuters, syndicated by Fullview](https://fullview.co.za/vinicius-nets-first-half-hat-trick-as-brazil-crush-singapore-7-0/)
+
+## Mozambique: opposition leader's trial begins
+
+Venancio Mondlane went on trial on 17 November on charges of inciting terrorism
+and civil disobedience over unrest after the disputed 2024 election. He denies
+the charges and describes the case as politically motivated. The image says
+the trial opened; it does not imply a conviction or that the unrest happened today.
+
+- [Reuters, syndicated by Internazionale](https://www.internazionale.it/ultime-notizie-reuters/2026/11/17/mozambique-s-main-opposition-leader-goes-on-trial-over-post-election-unrest)
+
+## UK: labour market figures released
+
+The ONS release dated 17 November reports regular annual pay growth of 3.5%
+and unemployment of 4.6% for July–September. The brief labels the data period.
+The ONS cautions that survey rotation partly explains the employment and
+unemployment movements; the image draws no conclusion about a jobs boom.
+
+- [Office for National Statistics, November 2026 bulletin](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/bulletins/uklabourmarket/november2026)
+
+## Nigeria: drug agency reports arrests
+
+Reuters reported on 17 November that the NDLEA said it dismantled a cocaine
+trafficking syndicate routing drugs through the Sahara to Europe. The eight
+suspected couriers were arrested in Lagos and Kano on 30–31 October. The brief
+explicitly labels this as an agency report about an October operation.
+
+- [Reuters, 17 November](https://www.reuters.com/world/africa/nigeria-arrests-eight-cocaine-gang-routing-drugs-europe-via-sahara-2026-11-17/)
